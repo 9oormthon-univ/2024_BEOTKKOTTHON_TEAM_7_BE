@@ -22,7 +22,7 @@ public class ImageService {
     @Transactional
     public void createImage( MultipartFile file,Done done) {
         String url = "";
-        if(file != null) {
+        if(!file.isEmpty()) {
             url = s3Uploader.uploadFileToS3(file, "static/team-image");
             imageRepository.save(new Image(url,done));
             log.info(url+" 저장됨");

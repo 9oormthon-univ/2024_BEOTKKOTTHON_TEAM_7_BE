@@ -6,6 +6,7 @@ import groomthon.studymate.repository.DoneRepository;
 import groomthon.studymate.repository.ImageRepository;
 import groomthon.studymate.repository.StudyRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class DoneService {
     private final StudyRepository studyRepository;
     private final ImageService imageService;
@@ -35,6 +37,9 @@ public class DoneService {
 
 
         Done resultDone= doneRepository.save(new Done(contents, foundStudy, userDto.getEmail(),week));
+        log.info("multipartFiles.size():"+ multipartFiles.size());
+
+
         for(int i=0;i< multipartFiles.size();i++){
             imageService.createImage( multipartFiles.get(i),resultDone);
         }

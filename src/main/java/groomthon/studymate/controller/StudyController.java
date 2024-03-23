@@ -30,6 +30,13 @@ public class StudyController {
     public StudyResponseDto createStudy( @RequestBody StudyRequestDto studyRequestDto){
         return studyService.createStudy(studyRequestDto);
     }
+
+
+
+
+
+
+
     //스터디 마감 안된것 전체 조회(0이면 모집 안끝난것 1이면 끝난것)
     @GetMapping("/study")
     public List<StudyResponseDto> findAllStudy(Pageable pageable){

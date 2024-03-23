@@ -17,12 +17,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/studymate?serverTimezone=Asia/Seoul
     #로컬용
-    username: root
-    password: kwjdgh13579!
+#    username: root
+#    password: kwjdgh13579!
 
     #배포용
-#    username: kjh
-#    password: 1267
+    username: kjh
+    password: 1267
 
   jpa:
     hibernate:
@@ -45,8 +45,8 @@ spring:
             scope:
               - email
               - profile
-            redirect-uri: http://localhost:8080/api/login/oauth2/code/google
-#            redirect-uri: http://localhost:5173/api/login/oauth2/code/google
+#            redirect-uri: http://localhost:8080/api/login/oauth2/code/google
+            redirect-uri: http://localhost:5173/api/login/oauth2/code/google
 #            redirect-uri: http://ec2-13-124-244-129.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/google #배포는 이게 맞다.
   servlet:
     multipart:

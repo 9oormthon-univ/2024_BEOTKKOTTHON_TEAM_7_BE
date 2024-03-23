@@ -1,6 +1,7 @@
 package groomthon.studymate.entity;
 
 import groomthon.studymate.dto.UserResponseDto;
+import groomthon.studymate.entity.tag.Subject;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,7 +52,24 @@ public class User extends BaseEntity{
     private double score;
 
     @Column
-    private String subject;
+    private Subject subject;
+
+    //-------------------여기부터 멘토링 속성
+    @OneToMany(mappedBy = "user")
+    List<Mentoring> mentorings= new ArrayList<>();
+
+    //여기부터 멘토,멘티 속성
+    @OneToMany(mappedBy = "user")
+    List<Mentor> mentors= new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    List<Mentee> mentees= new ArrayList<>();
+
+
+
+
+    //여기부터 멘티 속성
+
 
 
     @Builder
@@ -69,9 +87,7 @@ public class User extends BaseEntity{
         return this;
     }
 
-    public String getRoleKey() {
-        return this.role.getKey();
-    }
+
 
     public static UserResponseDto toUserResDto(User user){
         return new UserResponseDto(user.getId(),user.getName(),user.getEmail(), user.getPicture());

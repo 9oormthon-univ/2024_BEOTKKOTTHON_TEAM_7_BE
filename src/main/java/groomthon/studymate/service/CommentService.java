@@ -4,9 +4,7 @@ import groomthon.studymate.dto.CommentDto;
 import groomthon.studymate.dto.CommentRequestDto;
 import groomthon.studymate.dto.UserDto;
 import groomthon.studymate.entity.*;
-import groomthon.studymate.repository.CommentRepository;
-import groomthon.studymate.repository.StudyRepository;
-import groomthon.studymate.repository.UserRepository;
+import groomthon.studymate.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
+    private final MentoringRepository mentoringRepository;
+    private final MentoringCommentRepository mentoringCommentRepository;
     public String addComment( Long studyId, CommentRequestDto dto) {
         //Authenticaton 필요
 //        UserDto userDto = (UserDto) authentication.getPrincipal();
@@ -36,5 +36,21 @@ public class CommentService {
         Study foundStudy= studyRepository.findById(studyId).orElse(null);
         List<Comment> foundComments = commentRepository.findAllByStudy(foundStudy);
         return foundComments.stream().map(comment -> new CommentDto(comment.getId(), comment.getContents(),comment.getCreatedDate(),comment.getUpdatedDate())).collect(Collectors.toList());
+    }
+
+    public String addMentoringComment(Long mentoringId, CommentRequestDto dto) {
+        UserDto userDto = new UserDto("superuser@gmail.com","슈퍼유저","https://lh3.googleusercontent.com/a/ACg8ocKzuCF06tNfWxK2VEOLD3gxJTlwAk24lb4gmqx5xH29=s96",Role.MENTEE);
+        Mentoring foundMentoring= mentoringRepository.findById(mentoringId).orElse(null);
+        User foundUser= userRepository.findByEmail(userDto.getEmail()).orElse(null);
+
+        MentoringComment mentoringComment = new MentoringComment(dto.getContents(), Type.MENTORING,foundMentoring,foundUser);
+        mentoringCommentRepository.save(mentoringComment);
+        return "댓글 작성 완료";
+    }
+
+    public List<CommentDto> getCommentsByMentoring(Long mentoringId) {
+        Mentoring foundMentoring= mentoringRepository.findById(mentoringId).orElse(null);
+        List<MentoringComment> foundMentoringComments = mentoringCommentRepository.findAllByMentoring(foundMentoring);
+        return foundMentoringComments.stream().map(comment -> new CommentDto(comment.getId(), comment.getContents(),comment.getCreatedDate(),comment.getUpdatedDate())).collect(Collectors.toList());
     }
 }

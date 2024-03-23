@@ -36,6 +36,7 @@ public class DoneController {
     }
 
 
+
     @GetMapping("/study/{study_id}/afterstudy")
     public TotalDoneResDto findAllDone(@PathVariable("study_id")Long study_id){
         return doneService.findAllDone(study_id);

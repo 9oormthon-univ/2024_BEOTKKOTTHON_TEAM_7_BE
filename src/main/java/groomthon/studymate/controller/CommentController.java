@@ -31,5 +31,15 @@ public class CommentController {
         return commentService.getCommentsByStudy(study_id);
     }
 
+    @PostMapping("user/mentoring/{mentoring_id}/talk/write")
+    public String addMentoringComment( @PathVariable(name = "mentoring_id")Long mentoring_id, @RequestBody CommentRequestDto dto){
+        return commentService.addMentoringComment(mentoring_id, dto);
+    }
+
+    @GetMapping("mentoring/{mentoring_id}/talk")
+    public List<CommentDto> getCommentsByMentoring(@PathVariable(name = "mentoring_id")Long mentoring_id){
+        return commentService.getCommentsByMentoring(mentoring_id);
+    }
+
 
 }
