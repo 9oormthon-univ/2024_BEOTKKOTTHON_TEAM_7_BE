@@ -1,0 +1,65 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  data:
+    rest:
+      base-path: /api
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/studymate?serverTimezone=Asia/Seoul
+    #로컬용
+#    username: root
+#    password: kwjdgh13579!
+
+    #배포용
+    username: kjh
+    password: 1267
+
+  jpa:
+    hibernate:
+      ddl-auto: update #create update none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    generate-ddl: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 113402694110-9kpqdal2ecqo4bu4h9emk3j08elp82p8.apps.googleusercontent.com
+            client-secret: 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
+            # 프론트랑 할 때
+#            client-id: 214256759740-8tgs7481av48a022sarg2o38mvl1u303.apps.googleusercontent.com
+#            client-secret: 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
+            scope:
+              - email
+              - profile
+#            redirect-uri: http://localhost:8080/api/login/oauth2/code/google
+            redirect-uri: http://localhost:5173/api/login/oauth2/code/google
+#            redirect-uri: http://ec2-13-124-244-129.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/google #배포는 이게 맞다.
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+
+cloud:
+  aws:
+    s3:
+      bucket: studymate
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: AKIAU6GDVWWGQACAIZ4Y
+      secretKey: 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
